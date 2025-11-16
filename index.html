@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Eli Homework Log</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 1rem;
+        max-width: 600px;
+      }
+      label {
+        display: block;
+        margin-top: 0.5rem;
+      }
+      input,
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 0.75rem;
+        margin-right: 0.5rem;
+      }
+      pre {
+        background: #f5f5f5;
+        padding: 0.75rem;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Eli Homework Log</h1>
+
+    <section>
+      <h2>Add entry</h2>
+      <label>
+        Date
+        <input type="date" id="date" />
+      </label>
+      <label>
+        Subject
+        <input type="text" id="subject" />
+      </label>
+      <label>
+        Duration (minutes)
+        <input type="number" id="duration" />
+      </label>
+      <label>
+        Description
+        <textarea id="description" rows="3"></textarea>
+      </label>
+      <button id="add">Add entry</button>
+      <button id="reload">Reload log</button>
+    </section>
+
+    <section>
+      <h2>Log</h2>
+      <pre id="log">No data yet…</pre>
+    </section>
+
+    <!-- This will be the bundled JS output from app.ts -->
+    <script src="./app.js"></script>
+  </body>
+</html>
