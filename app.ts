@@ -33,6 +33,8 @@ async function loadLog() {
 
   const res = await fetch(`${API_URL}?t=${Date.now()}`); // t=… to avoid caching
   const data = (await res.json()) as ApiResponse;
+  console.log('Loaded data:', { data });
+
   const rows = data.rows ?? [];
 
   if (!rows.length) {

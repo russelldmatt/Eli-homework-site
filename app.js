@@ -14,6 +14,9 @@ async function loadLog() {
   logEl.textContent = "Loading\u2026";
   const res = await fetch(`${API_URL}?t=${Date.now()}`);
   const data = await res.json();
+  console.log("Loaded data:", {
+    data
+  });
   const rows = data.rows ?? [];
   if (!rows.length) {
     logEl.textContent = "No entries yet.";
