@@ -7,7 +7,7 @@ const durationEl = document.getElementById('duration') as HTMLInputElement;
 const descriptionEl = document.getElementById(
   'description'
 ) as HTMLTextAreaElement;
-const logEl = document.getElementById('log') as HTMLPreElement;
+const logBody = document.getElementById('log-body') as HTMLTableSectionElement;
 const addBtn = document.getElementById('add') as HTMLButtonElement;
 const reloadBtn = document.getElementById('reload') as HTMLButtonElement;
 
@@ -29,7 +29,7 @@ if (dateEl) {
 }
 
 async function loadLog() {
-  logEl.textContent = 'Loading…';
+  logBody.innerHTML = '<tr><td colspan="4">Loading…</td></tr>';
 
   const res = await fetch(`${API_URL}?t=${Date.now()}`); // t=… to avoid caching
   const data = (await res.json()) as ApiResponse;
@@ -37,19 +37,24 @@ async function loadLog() {
 
   const rows = data.rows ?? [];
 
+  logBody.innerHTML = ''; // Clear loading message
+
   if (!rows.length) {
-    logEl.textContent = 'No entries yet.';
+    logBody.innerHTML = '<tr><td colspan="4">No entries yet.</td></tr>';
     return;
   }
 
   const headers = ['Date', 'Subject', 'Duration', 'Description'] as const;
 
-  const lines = [
-    headers.join(' | '),
-    ...rows.map((r) => headers.map((h) => r[h] ?? '').join(' | ')),
-  ];
-
-  logEl.textContent = lines.join('\n');
+  rows.forEach((row) => {
+    const tr = document.createElement('tr');
+    headers.forEach((header) => {
+      const td = document.createElement('td');
+      td.textContent = row[header] ?? '';
+      tr.appendChild(td);
+    });
+    logBody.appendChild(tr);
+  });
 }
 
 async function addEntry() {
@@ -100,5 +105,6 @@ reloadBtn.addEventListener('click', () => {
 // Load initially
 loadLog().catch((err) => {
   console.error(err);
-  logEl.textContent = 'Error loading log (see console).';
+  logBody.innerHTML =
+    '<tr><td colspan="4" style="color:red">Error loading log.</td></tr>';
 });

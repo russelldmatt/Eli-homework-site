@@ -4,22 +4,23 @@ var dateEl = document.getElementById("date");
 var subjectEl = document.getElementById("subject");
 var durationEl = document.getElementById("duration");
 var descriptionEl = document.getElementById("description");
-var logEl = document.getElementById("log");
+var logBody = document.getElementById("log-body");
 var addBtn = document.getElementById("add");
 var reloadBtn = document.getElementById("reload");
 if (dateEl) {
   dateEl.valueAsNumber = Date.now() - (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
 }
 async function loadLog() {
-  logEl.textContent = "Loading\u2026";
+  logBody.innerHTML = '<tr><td colspan="4">Loading\u2026</td></tr>';
   const res = await fetch(`${API_URL}?t=${Date.now()}`);
   const data = await res.json();
   console.log("Loaded data:", {
     data
   });
   const rows = data.rows ?? [];
+  logBody.innerHTML = "";
   if (!rows.length) {
-    logEl.textContent = "No entries yet.";
+    logBody.innerHTML = '<tr><td colspan="4">No entries yet.</td></tr>';
     return;
   }
   const headers = [
@@ -28,11 +29,15 @@ async function loadLog() {
     "Duration",
     "Description"
   ];
-  const lines = [
-    headers.join(" | "),
-    ...rows.map((r) => headers.map((h) => r[h] ?? "").join(" | "))
-  ];
-  logEl.textContent = lines.join("\n");
+  rows.forEach((row) => {
+    const tr = document.createElement("tr");
+    headers.forEach((header) => {
+      const td = document.createElement("td");
+      td.textContent = row[header] ?? "";
+      tr.appendChild(td);
+    });
+    logBody.appendChild(tr);
+  });
 }
 async function addEntry() {
   const payload = {
@@ -74,5 +79,5 @@ reloadBtn.addEventListener("click", () => {
 });
 loadLog().catch((err) => {
   console.error(err);
-  logEl.textContent = "Error loading log (see console).";
+  logBody.innerHTML = '<tr><td colspan="4" style="color:red">Error loading log.</td></tr>';
 });
