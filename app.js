@@ -2,8 +2,9 @@
 var API_URL = "https://script.google.com/macros/s/AKfycbx04NJaSkQc4wbbkpO3DnLRNIazA48k_GV0R65bMpoGLcR1aB2JKRAcWO4tkv1Vcvt0/exec";
 var dateEl = document.getElementById("date");
 var subjectEl = document.getElementById("subject");
+var detailsEl = document.getElementById("details");
 var durationEl = document.getElementById("duration");
-var descriptionEl = document.getElementById("description");
+var notesEl = document.getElementById("notes");
 var logBody = document.getElementById("log-body");
 var addBtn = document.getElementById("add");
 var reloadBtn = document.getElementById("reload");
@@ -26,8 +27,9 @@ async function loadLog() {
   const headers = [
     "Date",
     "Subject",
+    "Details",
     "Duration",
-    "Description"
+    "Notes"
   ];
   rows.forEach((row) => {
     const tr = document.createElement("tr");
@@ -43,8 +45,9 @@ async function addEntry() {
   const payload = {
     Date: dateEl.value,
     Subject: subjectEl.value,
+    Details: detailsEl.value,
     Duration: durationEl.value,
-    Description: descriptionEl.value
+    Notes: notesEl.value
   };
   if (!payload.Date || !payload.Subject || !payload.Duration) {
     alert("Please fill Date, Subject, and Duration.");
@@ -62,7 +65,7 @@ async function addEntry() {
     alert("Something went wrong: " + text);
     return;
   }
-  descriptionEl.value = "";
+  notesEl.value = "";
   await loadLog();
 }
 addBtn.addEventListener("click", () => {

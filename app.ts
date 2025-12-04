@@ -3,10 +3,9 @@ const API_URL =
 
 const dateEl = document.getElementById('date') as HTMLInputElement;
 const subjectEl = document.getElementById('subject') as HTMLInputElement;
+const detailsEl = document.getElementById('details') as HTMLInputElement;
 const durationEl = document.getElementById('duration') as HTMLInputElement;
-const descriptionEl = document.getElementById(
-  'description'
-) as HTMLTextAreaElement;
+const notesEl = document.getElementById('notes') as HTMLInputElement;
 const logBody = document.getElementById('log-body') as HTMLTableSectionElement;
 const addBtn = document.getElementById('add') as HTMLButtonElement;
 const reloadBtn = document.getElementById('reload') as HTMLButtonElement;
@@ -14,8 +13,9 @@ const reloadBtn = document.getElementById('reload') as HTMLButtonElement;
 type HomeworkRow = {
   Date: string;
   Subject: string;
+  Details: string;
   Duration: string;
-  Description: string;
+  Notes: string;
 };
 
 type ApiResponse = {
@@ -44,7 +44,7 @@ async function loadLog() {
     return;
   }
 
-  const headers = ['Date', 'Subject', 'Duration', 'Description'] as const;
+  const headers = ['Date', 'Subject', 'Details', 'Duration', 'Notes'] as const;
 
   rows.forEach((row) => {
     const tr = document.createElement('tr');
@@ -61,8 +61,9 @@ async function addEntry() {
   const payload: HomeworkRow = {
     Date: dateEl.value,
     Subject: subjectEl.value,
+    Details: detailsEl.value,
     Duration: durationEl.value,
-    Description: descriptionEl.value,
+    Notes: notesEl.value,
   };
 
   if (!payload.Date || !payload.Subject || !payload.Duration) {
@@ -83,7 +84,7 @@ async function addEntry() {
   }
 
   // Clear description, keep others for convenience
-  descriptionEl.value = '';
+  notesEl.value = '';
 
   await loadLog();
 }
