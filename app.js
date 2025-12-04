@@ -31,7 +31,8 @@ async function loadLog() {
     "Duration",
     "Notes"
   ];
-  rows.forEach((row) => {
+  const reversedRows = rows.reverse();
+  reversedRows.forEach((row) => {
     const tr = document.createElement("tr");
     headers.forEach((header) => {
       const td = document.createElement("td");

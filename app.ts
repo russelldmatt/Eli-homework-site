@@ -46,7 +46,8 @@ async function loadLog() {
 
   const headers = ['Date', 'Subject', 'Details', 'Duration', 'Notes'] as const;
 
-  rows.forEach((row) => {
+  const reversedRows = rows.reverse();
+  reversedRows.forEach((row) => {
     const tr = document.createElement('tr');
     headers.forEach((header) => {
       const td = document.createElement('td');
