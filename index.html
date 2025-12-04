@@ -127,14 +127,18 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 500px; /* Ensure it doesn't get too squished */
+        table-layout: fixed; /* Forces columns to fit within width */
       }
 
       th,
       td {
-        padding: 0.75rem;
+        padding: 2px 3px;
         text-align: left;
         border-bottom: 1px solid #eee;
+        font-size: 11px;
+        line-height: 1.1;
+        word-wrap: break-word; /* Ensure text wraps */
+        overflow-wrap: break-word;
       }
 
       th {
